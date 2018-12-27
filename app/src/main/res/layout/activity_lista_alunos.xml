@@ -1,15 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-<ListView
-    android:id="@+id/lista_alunos"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    <ListView
+        android:id="@+id/lista_alunos"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</ListView>
+    </ListView>
 
-</LinearLayout>
+    <Button
+        android:id="@+id/btn_novo_aluno"
+        android:text="+"
+        android:textColor="#FFFFFF"
+        android:textSize="35sp"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="16dp"
+        android:layout_marginRight="16dp"
+        android:background="@drawable/fundo"
+        android:elevation="8dp"
+        android:stateListAnimator="@null"/>
+
+    <!--
+        a propriedade [ elevation ] define a elevação do componente em relação ao layout (fundo
+        da tela).
+        a propriedade [ stateListAnimator ] é necessário atribuir o valor @null para poder garantir
+        a compatibilidade do efeito de elevação nos aparelhos android mais antigos.
+        OBS: recursos mais recentes do android rodando em versões antigas podem causar problemas
+        de compatibilidade.
+    -->
+
+</RelativeLayout>

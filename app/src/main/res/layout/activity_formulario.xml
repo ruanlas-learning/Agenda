@@ -53,11 +53,11 @@
             uma nota baseada na nota máxima, trabalhando com escala.
         -->
 
-        <Button
-            android:text="Salvar"
-            android:id="@+id/btn_formulario_salvar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <!--<Button-->
+            <!--android:text="Salvar"-->
+            <!--android:id="@+id/btn_formulario_salvar"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content" />-->
 
     </LinearLayout>
 </ScrollView>
