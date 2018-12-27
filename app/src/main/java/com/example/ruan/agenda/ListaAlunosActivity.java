@@ -13,17 +13,17 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.example.ruan.agenda.dao.AlunoDAO;
+import com.example.ruan.agenda.modelo.Aluno;
+
+import java.util.List;
+
 public class ListaAlunosActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
-
-        String[] alunos = {"Daniel", "Ronaldo", "Jeferson", "Felipe"};
-        ListView lista_alunos = (ListView) findViewById(R.id.lista_alunos);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, alunos);
-        lista_alunos.setAdapter(adapter);
 
         Button btn_novo_aluno = (Button)findViewById(R.id.btn_novo_aluno);
         btn_novo_aluno.setOnClickListener(new View.OnClickListener() {
@@ -35,4 +35,23 @@ public class ListaAlunosActivity extends AppCompatActivity {
         });
     }
 
+    private void carregaLista() {
+        AlunoDAO alunoDAO = new AlunoDAO(this);
+        List<Aluno> alunoList = alunoDAO.buscaAlunos();
+        alunoDAO.close();
+
+//        String[] alunos = {"Daniel", "Ronaldo", "Jeferson", "Felipe"};
+        ListView lista_alunos = (ListView) findViewById(R.id.lista_alunos);
+        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunoList);
+        lista_alunos.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        //ciclo de vida de uma nova activity: OnCreate => OnStart => OnResume => [ Activity Rodando ]
+        // Activity pausada: OnPause => OnResume [ Activity Rodando ]
+        // Activity parada: OnStop => OnResume => OnStart => OnResume [ Activity Rodando ]
+        super.onResume();
+        carregaLista();
+    }
 }

@@ -5,16 +5,21 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.Toast;
 
+import com.example.ruan.agenda.dao.AlunoDAO;
+import com.example.ruan.agenda.modelo.Aluno;
+
 public class FormularioActivity extends AppCompatActivity {
+
+    private FormularioHelper formularioHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_formulario);
+
+        formularioHelper = new FormularioHelper(this);
 
 //        Button btn_formulario_salvar = (Button) findViewById(R.id.btn_formulario_salvar);
 //        btn_formulario_salvar.setOnClickListener(new View.OnClickListener() {
@@ -40,7 +45,11 @@ public class FormularioActivity extends AppCompatActivity {
 
         switch (itemId){
             case R.id.menu_formulario_ok:
-                Toast.makeText(FormularioActivity.this, "Aluno salvo com sucesso!", Toast.LENGTH_SHORT).show();
+                Aluno aluno = formularioHelper.pegaAluno();
+                AlunoDAO alunoDAO = new AlunoDAO(this);
+                alunoDAO.insere(aluno);
+                alunoDAO.close();
+                Toast.makeText(FormularioActivity.this, "Aluno " + aluno.getNome() +" salvo com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
                 break;
         }
