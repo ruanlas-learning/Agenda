@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+<!--
+    a declaração [ xmlns:android="http://schemas.android.com/apk/res/android ] é necessário
+    apenas na primeira tag do arquivo, pois a partir dele que ficarão definidos todas as
+    tags do android. É como se fosse um "namespace"
+ -->
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <EditText
+            android:hint="Nome"
+            android:id="@+id/edt_formulario_nome"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Endereço"
+            android:id="@+id/edt_formulario_endereco"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Telefone"
+            android:id="@+id/edt_formulario_telefone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:hint="Site"
+            android:id="@+id/edt_formulario_site"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <RatingBar
+            android:id="@+id/rt_bar_formulario_nota"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:max="10"
+            android:layout_gravity="center"/>
+        <!--
+            A propriedade [numStars] do componente RatingBar define a quantidade de estrelas
+            que o componente irá mostrar. A propiedade [max] define a nota máxima que o componente
+            terá quando clicado na última estrela.
+            OBS: quando selecionado a quantidade de estrelas, será convertido automaticamente para
+            uma nota baseada na nota máxima, trabalhando com escala.
+        -->
+
+        <Button
+            android:text="Salvar"
+            android:id="@+id/btn_formulario_salvar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>
