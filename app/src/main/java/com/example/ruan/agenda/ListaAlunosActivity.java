@@ -1,9 +1,14 @@
 package com.example.ruan.agenda;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
@@ -91,12 +96,14 @@ public class ListaAlunosActivity extends AppCompatActivity {
 //        menuInflater.inflate(R.menu.context_menu_lista_alunos, menu);
 
         // outra forma de criar menu de contexto
-        MenuItem deletar = menu.add("Deletar");
-        deletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+        final Aluno aluno = (Aluno) lista_alunos.getItemAtPosition(info.position);
+//////////////////////////////////////////////////////////////////////////////////////////
+        MenuItem menuItemDeletar = menu.add("Deletar");
+        menuItemDeletar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
-                Aluno aluno = (Aluno) lista_alunos.getItemAtPosition(info.position);
 
                 AlunoDAO alunoDAO = new AlunoDAO(ListaAlunosActivity.this);
                 alunoDAO.deleta(aluno);
@@ -107,12 +114,85 @@ public class ListaAlunosActivity extends AppCompatActivity {
                 return false;
             }
         });
-//        MenuItem editar = menu.add("Editar");
+//////////////////////////////////////////////////////////////////////////////////////////
+        MenuItem menuItemVisitarSite = menu.add("Visitar site");
+        //Estamos passando para o android que queremos abrir(visualizar) alguma coisa (que pode
+        // ser o browser, player, sms, etc)
+        Intent intentSite = new Intent(Intent.ACTION_VIEW);
+        String site = aluno.getSite();
+        // é necessário o site começar com o protocolo "http://" para o android saber que ele deve
+        // abrir o navegador para acessar o recurso
+        if (!site.startsWith("http://")){
+            site = "http://" + site;
+        }
+        intentSite.setData( Uri.parse( site ) );
+        menuItemVisitarSite.setIntent(intentSite);
+///////////////////////////////////////////////////////////////////////////////////////////
+        MenuItem menuItemEnviarSMS = menu.add("enviarSMS");
+        Intent intentSMS = new Intent(Intent.ACTION_VIEW);
+        // é necessário o telefone começar com o protocolo "sms:" para o android saber que ele deve
+        // abrir a tela para enviar SMS
+        intentSMS.setData(Uri.parse("sms:" + aluno.getTelefone() ));
+        menuItemEnviarSMS.setIntent(intentSMS);
+/////////////////////////////////////////////////////////////////////////////////////////
+        MenuItem menuItemVisualizarNoMapa = menu.add("Visualizar no mapa");
+        Intent intentMapa = new Intent(Intent.ACTION_VIEW);
+        // é necessário as coordenadas do endereço começar com o protocolo "geo:" para o android
+        // saber que deve abrir o mapa. As coordenadas que devem ser passadas após o protocolo "geo:"
+        // são as altitude e longitude (x,y). Ficará mais ou menos assim "geo:0,0"
+        //
+        // Quando não se sabe as coordenadas do endereço, pode-se pedir para o google localizar
+        // passando o parâmetro ["geo:0,0?q=" + endereço], que assim ele já abrirá o mapa no local
+        // correto
+        intentMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
+        menuItemVisualizarNoMapa.setIntent(intentMapa);
+//////////////////////////////////////////////////////////////////////////////////////////
+        MenuItem menuItemLigar = menu.add("Ligar");
+        menuItemLigar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
 
+                // para realizar a ligação, devemos passar para o android a ação de ligar
+                Intent intentLigar = new Intent(Intent.ACTION_CALL);
+                // é necessário o número do telefone começar com o protocolo "tel:" para o android
+                // fazer a ligação. É necessário também incluir a permissão android.permission.CALL_PHONE
+                // no AndroidManifest.xml do aplicativo para que este app tenha permissão para fazer ligação
+                intentLigar.setData(Uri.parse("tel:" + aluno.getTelefone()));
+                // é necessárrio verificar neste trecho se o usuário já deu a permissão de ligação para o app,
+                // e caso ele não concedeu, solicitar a permissão
+                if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED){
+                    ActivityCompat.requestPermissions(
+                            ListaAlunosActivity.this,
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            123
+                    );
+                    // Depois de solicitar a permissão para o usuário, é chamado o método
+                    // "onRequestPermissionsResult()". Para identificar onde e quem pediu a permissão
+                    // e consequentemente quem chamou o método, é passado o parâmetro "requestCode"
+                    // para identificar e distinguir os diversos requests (para cada request deve ser
+                    // passado um requestCode diferente)
+                }
+                if (ActivityCompat.checkSelfPermission(ListaAlunosActivity.this, Manifest.permission.CALL_PHONE) == PackageManager.PERMISSION_GRANTED){
+                    startActivity(intentLigar);
+                }
 
+                return false;
+            }
+        });
     }
 
-//    @Override
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        // request code da solicitação de permissão da chamada telefônica
+        if (requestCode == 123){
+            Toast.makeText(this, "Request Code: " + requestCode, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    //    @Override
 //    public boolean onContextItemSelected(MenuItem item) {
 //        item.getMenuInfo();
 //      // utilizamos este método para saber qual item do menu foi clicado quando
