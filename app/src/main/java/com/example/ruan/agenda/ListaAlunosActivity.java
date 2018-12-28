@@ -29,6 +29,7 @@ import java.util.List;
 
 public class ListaAlunosActivity extends AppCompatActivity {
 
+    public static final int REQUEST_CODE_LIGACAO_TELEFONICA = 123;
     private ListView lista_alunos;
 
     @Override
@@ -144,6 +145,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         // Quando não se sabe as coordenadas do endereço, pode-se pedir para o google localizar
         // passando o parâmetro ["geo:0,0?q=" + endereço], que assim ele já abrirá o mapa no local
         // correto
+        //
+        // Adicionando o parâmetro "z=14&", informamos o zoom que queremos que seja adicionado
+        // no mapa para visualizarmos. ex: [ "geo:0,0?z=14&q=" + endereco ]
         intentMapa.setData(Uri.parse("geo:0,0?q=" + aluno.getEndereco()));
         menuItemVisualizarNoMapa.setIntent(intentMapa);
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -164,7 +168,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
                     ActivityCompat.requestPermissions(
                             ListaAlunosActivity.this,
                             new String[]{Manifest.permission.CALL_PHONE},
-                            123
+                            REQUEST_CODE_LIGACAO_TELEFONICA
                     );
                     // Depois de solicitar a permissão para o usuário, é chamado o método
                     // "onRequestPermissionsResult()". Para identificar onde e quem pediu a permissão
@@ -186,7 +190,7 @@ public class ListaAlunosActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // request code da solicitação de permissão da chamada telefônica
-        if (requestCode == 123){
+        if (requestCode == REQUEST_CODE_LIGACAO_TELEFONICA){
             Toast.makeText(this, "Request Code: " + requestCode, Toast.LENGTH_SHORT).show();
         }
     }

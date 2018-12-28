@@ -15,7 +15,7 @@ import java.util.List;
 public class AlunoDAO extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "agenda";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
 
     public AlunoDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -29,7 +29,8 @@ public class AlunoDAO extends SQLiteOpenHelper {
                             "endereco TEXT," +
                             "telefone TEXT," +
                             "site TEXT," +
-                            "nota REAL" +
+                            "nota REAL," +
+                            "caminhoFoto TEXT" +
                     ");";
         db.execSQL(sql);
 
@@ -37,13 +38,19 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // O trecho abaixo é indicado somente quando o app estiver em desenvolvimento e não tiver sido
-        // lançado em prod ainda. Quando o app tiver em prod, o ideal a ser feito é uma atualização
-        // do schema do banco de dados para não perder os dados que foram registrados na versão
-        // anterior do banco de dados.
-        String sql = "DROP TABLE IF EXISTS alunos";
-        db.execSQL(sql);
-        onCreate(db);
+//        // O trecho abaixo é indicado somente quando o app estiver em desenvolvimento e não tiver sido
+//        // lançado em prod ainda. Quando o app tiver em prod, o ideal a ser feito é uma atualização
+//        // do schema do banco de dados para não perder os dados que foram registrados na versão
+//        // anterior do banco de dados.
+//        String sql = "DROP TABLE IF EXISTS alunos";
+//        db.execSQL(sql);
+//        onCreate(db);
+        String sql = "";
+        switch (oldVersion){
+            case 1:
+                sql = "ALTER TABLE alunos ADD COLUMN caminhoFoto TEXT";
+                db.execSQL(sql);
+        }
     }
 
     public void insere(Aluno aluno) {
@@ -68,6 +75,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
             aluno.setTelefone(cursor.getString(cursor.getColumnIndex("telefone")));
             aluno.setSite(cursor.getString(cursor.getColumnIndex("site")));
             aluno.setNota(cursor.getDouble(cursor.getColumnIndex("nota")));
+            aluno.setCaminhoFoto(cursor.getString(cursor.getColumnIndex("caminhoFoto")));
 
             alunoList.add(aluno);
         }
@@ -99,6 +107,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
         alunoContent.put("telefone", aluno.getTelefone());
         alunoContent.put("site", aluno.getSite());
         alunoContent.put("nota", aluno.getNota());
+        alunoContent.put("caminhoFoto", aluno.getCaminhoFoto());
         return alunoContent;
     }
 }

@@ -4,6 +4,8 @@
 
     <!-- Permissão para habilitar a chamada telefônica -->
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <!-- Permissão para ler um arquivo do celular (depois de tirar foto) -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -29,6 +31,18 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+
+        <!-- Foi necessário criar esse provider para poder ter acesso ao caminho que a câmera
+        salvaria a imagem -->
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/filepaths" />
+        </provider>
     </application>
 
 </manifest>
