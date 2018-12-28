@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.example.ruan.agenda.adapter.AlunosAdapter;
 import com.example.ruan.agenda.dao.AlunoDAO;
 import com.example.ruan.agenda.modelo.Aluno;
 
@@ -77,7 +78,8 @@ public class ListaAlunosActivity extends AppCompatActivity {
         alunoDAO.close();
 
 //        String[] alunos = {"Daniel", "Ronaldo", "Jeferson", "Felipe"};
-        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunoList);
+//        ArrayAdapter<Aluno> adapter = new ArrayAdapter<Aluno>(this, android.R.layout.simple_list_item_1, alunoList);
+        AlunosAdapter adapter = new AlunosAdapter(this, alunoList);
         lista_alunos.setAdapter(adapter);
     }
 
