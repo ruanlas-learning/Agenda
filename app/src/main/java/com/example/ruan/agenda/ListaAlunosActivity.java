@@ -31,12 +31,17 @@ import java.util.List;
 public class ListaAlunosActivity extends AppCompatActivity {
 
     public static final int REQUEST_CODE_LIGACAO_TELEFONICA = 123;
+    public static final int REQUEST_CODE_CODIGO_SMS = 432;
     private ListView lista_alunos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_alunos);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.RECEIVE_SMS } , REQUEST_CODE_CODIGO_SMS);
+        }
 
         lista_alunos = (ListView) findViewById(R.id.lista_alunos);
         registerForContextMenu(lista_alunos);
@@ -193,6 +198,9 @@ public class ListaAlunosActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         // request code da solicitação de permissão da chamada telefônica
         if (requestCode == REQUEST_CODE_LIGACAO_TELEFONICA){
+            Toast.makeText(this, "Request Code: " + requestCode, Toast.LENGTH_SHORT).show();
+        }
+        if (requestCode == REQUEST_CODE_CODIGO_SMS){
             Toast.makeText(this, "Request Code: " + requestCode, Toast.LENGTH_SHORT).show();
         }
     }

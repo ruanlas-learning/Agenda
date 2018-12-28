@@ -6,6 +6,8 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- Permissão para ler um arquivo do celular (depois de tirar foto) -->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- Permissão para receber SMS do telefone -->
+    <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
     <application
         android:allowBackup="true"
@@ -43,6 +45,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
+        <!-- é necessário registrar o Receiver no AndroidManifest -->
+        <receiver android:name=".receiver.SMSReceiver" >
+            <!-- Estamos definindo qual evento de sistema queremos que acione nosso receiver -->
+            <intent-filter>
+                <!-- A ação de SMS_RECEIVED está associado ao nosso Receiver -->
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

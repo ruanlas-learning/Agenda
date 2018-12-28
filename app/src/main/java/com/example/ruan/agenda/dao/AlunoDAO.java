@@ -110,4 +110,13 @@ public class AlunoDAO extends SQLiteOpenHelper {
         alunoContent.put("caminhoFoto", aluno.getCaminhoFoto());
         return alunoContent;
     }
+
+    public boolean ehAluno(String telefone){
+        SQLiteDatabase db = getReadableDatabase();
+        Cursor cursor = db.rawQuery("SELECT * FROM alunos WHERE telefone = ?", new String[]{telefone});
+        boolean hasAluno = (cursor.getCount() > 0);
+        cursor.close();
+
+        return hasAluno;
+    }
 }
