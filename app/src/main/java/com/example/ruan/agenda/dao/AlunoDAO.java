@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.support.annotation.NonNull;
 
 import com.example.ruan.agenda.modelo.Aluno;
 
@@ -47,12 +48,7 @@ public class AlunoDAO extends SQLiteOpenHelper {
 
     public void insere(Aluno aluno) {
 
-        ContentValues alunoContent = new ContentValues();
-        alunoContent.put("nome", aluno.getNome());
-        alunoContent.put("endereco", aluno.getEndereco());
-        alunoContent.put("telefone", aluno.getTelefone());
-        alunoContent.put("site", aluno.getSite());
-        alunoContent.put("nota", aluno.getNota());
+        ContentValues alunoContent = extractAlunoToContentValues(aluno);
 
         SQLiteDatabase db = getWritableDatabase();
         db.insert("alunos", null, alunoContent);
@@ -78,5 +74,31 @@ public class AlunoDAO extends SQLiteOpenHelper {
         cursor.close();
 
         return alunoList;
+    }
+
+    public void deleta(Aluno aluno) {
+        SQLiteDatabase db = getWritableDatabase();
+        String[] params = { aluno.getId().toString() };
+        db.delete("alunos", "id = ?", params);
+    }
+
+    public void altera(Aluno aluno) {
+        ContentValues alunoContent = extractAlunoToContentValues(aluno);
+
+        String[] params = { aluno.getId().toString() };
+
+        SQLiteDatabase db = getWritableDatabase();
+        db.update("alunos", alunoContent, "id = ?", params);
+    }
+
+    @NonNull
+    private ContentValues extractAlunoToContentValues(Aluno aluno) {
+        ContentValues alunoContent = new ContentValues();
+        alunoContent.put("nome", aluno.getNome());
+        alunoContent.put("endereco", aluno.getEndereco());
+        alunoContent.put("telefone", aluno.getTelefone());
+        alunoContent.put("site", aluno.getSite());
+        alunoContent.put("nota", aluno.getNota());
+        return alunoContent;
     }
 }

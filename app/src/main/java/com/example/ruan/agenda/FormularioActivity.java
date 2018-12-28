@@ -1,5 +1,6 @@
 package com.example.ruan.agenda;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 
 import com.example.ruan.agenda.dao.AlunoDAO;
 import com.example.ruan.agenda.modelo.Aluno;
+
+import java.io.Serializable;
 
 public class FormularioActivity extends AppCompatActivity {
 
@@ -20,6 +23,13 @@ public class FormularioActivity extends AppCompatActivity {
         setContentView(R.layout.activity_formulario);
 
         formularioHelper = new FormularioHelper(this);
+
+        Intent intent = getIntent();
+        Aluno aluno = (Aluno)intent.getSerializableExtra("aluno");
+        if (aluno != null){
+            formularioHelper.preencheFormulario(aluno);
+        }
+
 
 //        Button btn_formulario_salvar = (Button) findViewById(R.id.btn_formulario_salvar);
 //        btn_formulario_salvar.setOnClickListener(new View.OnClickListener() {
@@ -47,7 +57,12 @@ public class FormularioActivity extends AppCompatActivity {
             case R.id.menu_formulario_ok:
                 Aluno aluno = formularioHelper.pegaAluno();
                 AlunoDAO alunoDAO = new AlunoDAO(this);
-                alunoDAO.insere(aluno);
+                if (aluno.getId() != null){
+                    alunoDAO.altera(aluno);
+                }else {
+                    alunoDAO.insere(aluno);
+                }
+
                 alunoDAO.close();
                 Toast.makeText(FormularioActivity.this, "Aluno " + aluno.getNome() +" salvo com sucesso!", Toast.LENGTH_SHORT).show();
                 finish();
