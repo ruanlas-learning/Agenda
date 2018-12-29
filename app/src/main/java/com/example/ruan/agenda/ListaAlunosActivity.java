@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.ruan.agenda.adapter.AlunosAdapter;
+import com.example.ruan.agenda.converter.AlunoConverter;
 import com.example.ruan.agenda.dao.AlunoDAO;
 import com.example.ruan.agenda.modelo.Aluno;
 
@@ -95,6 +96,37 @@ public class ListaAlunosActivity extends AppCompatActivity {
         // Activity parada: OnStop => OnResume => OnStart => OnResume [ Activity Rodando ]
         super.onResume();
         carregaLista();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_lista_alunos, menu);
+        return true;
+//        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int itemId = item.getItemId();
+        switch (itemId){
+            case R.id.menu_enviar_notas:
+                EnviaAlunosTask enviaAlunosTask = new EnviaAlunosTask(this);
+                enviaAlunosTask.execute();
+//                AlunoDAO alunoDAO = new AlunoDAO(this);
+//                List<Aluno> alunoList = alunoDAO.buscaAlunos();
+//                alunoDAO.close();
+//
+//                AlunoConverter conversor = new AlunoConverter();
+//                String json = conversor.converterParaJSON(alunoList);
+//
+//                WebClient client = new WebClient();
+//                String resposta = client.post(json);
+//
+//                Toast.makeText(this, resposta, Toast.LENGTH_LONG).show();
+//                Toast.makeText(this, "Enviando notas.....", Toast.LENGTH_LONG).show();
+                break;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
