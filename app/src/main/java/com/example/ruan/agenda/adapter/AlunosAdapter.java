@@ -42,6 +42,7 @@ public class AlunosAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        Aluno aluno = alunoList.get(position);
         LayoutInflater inflater = LayoutInflater.from(context);
 
         if (convertView == null){
@@ -52,10 +53,21 @@ public class AlunosAdapter extends BaseAdapter {
         TextView item_telefone = (TextView)convertView.findViewById(R.id.item_telefone);
         ImageView item_foto = (ImageView)convertView.findViewById(R.id.item_foto);
 
-        item_nome.setText( alunoList.get(position).getNome() );
-        item_telefone.setText( alunoList.get(position).getTelefone() );
+        item_nome.setText( aluno.getNome() );
+        item_telefone.setText( aluno.getTelefone() );
 
-        String caminhoFoto = alunoList.get(position).getCaminhoFoto();
+        // campos para o modo paisagem
+        TextView item_endereco = (TextView)convertView.findViewById(R.id.item_endereco);
+        if (item_endereco != null){
+            item_endereco.setText( aluno.getEndereco() );
+        }
+
+        TextView item_site = (TextView)convertView.findViewById(R.id.item_site);
+        if (item_site != null){
+            item_site.setText( aluno.getSite() );
+        }
+
+        String caminhoFoto = aluno.getCaminhoFoto();
         if (caminhoFoto != null){
             Bitmap bitmap = BitmapFactory.decodeFile(caminhoFoto);
             Bitmap bitmapReduced = Bitmap.createScaledBitmap(bitmap, 100, 100, true);

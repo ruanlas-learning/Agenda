@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/item_foto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:src="@drawable/person" />
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/item_nome"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Renato"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:paddingLeft="10dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/item_telefone"
+            android:text="Telefone"
+            android:textSize="24sp"
+            android:paddingLeft="10dp"
+            android:paddingTop="8dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:layout_marginRight="16dp">
+
+        <TextView
+            android:text="Endereço"
+            android:textSize="24sp"
+            android:paddingTop="8dp"
+            android:id="@+id/item_endereco"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:text="Site"
+            android:textSize="24sp"
+            android:paddingTop="10dp"
+            android:id="@+id/item_site"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+
+</LinearLayout>
