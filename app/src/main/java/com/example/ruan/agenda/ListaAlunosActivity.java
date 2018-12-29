@@ -125,6 +125,11 @@ public class ListaAlunosActivity extends AppCompatActivity {
 //                Toast.makeText(this, resposta, Toast.LENGTH_LONG).show();
 //                Toast.makeText(this, "Enviando notas.....", Toast.LENGTH_LONG).show();
                 break;
+            case R.id.menu_baixar_provas:
+                Intent intentProvas = new Intent(this, ProvasActivity.class);
+//                Intent intentProvas = new Intent(this, ProvasTabletActivity.class);
+                startActivity(intentProvas);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

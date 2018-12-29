@@ -1,4 +1,5 @@
-<!-- Este arquivo nesta pasta "values-en" permite a portabilidade do arquivo string.xml para o inglês -->
+<!-- Este arquivo nesta pasta "values-en" permite a portabilidade do arquivo string.xml para o inglês.
+ Em outras palavras, permite a "tradução" para o inglês -->
 <resources>
     <!--<string name="app_name">Contacts</string>-->
     <!--<string name="campo_nome">Name</string>-->

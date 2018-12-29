@@ -27,33 +27,45 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".FormularioActivity" android:label="Formulario">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity
+            android:name=".FormularioActivity"
+            android:label="Formulario">
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
 
-        <!-- Foi necessário criar esse provider para poder ter acesso ao caminho que a câmera
-        salvaria a imagem -->
+        <!--
+        Foi necessário criar esse provider para poder ter acesso ao caminho que a câmera
+        salvaria a imagem
+        -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="${applicationId}.fileprovider"
-            android:grantUriPermissions="true"
-            android:exported="false">
+            android:exported="false"
+            android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/filepaths" />
         </provider>
         <!-- é necessário registrar o Receiver no AndroidManifest -->
-        <receiver android:name=".receiver.SMSReceiver" >
+        <receiver android:name=".receiver.SMSReceiver">
+
             <!-- Estamos definindo qual evento de sistema queremos que acione nosso receiver -->
             <intent-filter>
+
                 <!-- A ação de SMS_RECEIVED está associado ao nosso Receiver -->
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
+
+        <activity android:name=".ProvasActivity" />
+        <activity android:name=".DetalhesProvaActivity" />
+        <activity android:name=".ProvasTabletActivity"></activity>
     </application>
 
 </manifest>
